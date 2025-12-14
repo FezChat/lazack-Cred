@@ -1,12 +1,12 @@
-# Lazack Cred
+# Fee Creds
 
 Live Demo: 
 
-https://lazack-cred.onrender.com
+https://fee-creds.onrender.com
 
 ## Overview
 
-Lazack Cred is a web application developed by Lazack28, designed to offer a user-friendly platform for managing and exploring credit-based services.
+Fee Creds is a web application developed by Fredi, designed to offer a user-friendly platform for managing and exploring credit-based services.
 
 ## Features
 
@@ -26,11 +26,11 @@ To run the project locally:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/Lazack28/lazack-cred.git
+   git clone https://github.com/FezChat/fee-cred.git
 
 3. Navigate to the project directory:
    ```
-   cd lazack-cred
+   cd fee-cred
 
 5. Install dependencies:
    ```
@@ -46,8 +46,8 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-Developer: Lazackdevs
+Developer: Fredi Ezra
 
-[Email](lazaromtaju12@gmail.com)
+[Email](frediezra60@gmail.com)
 
-[GitHub](https://github.com/Lazack28)
+[GitHub](https://github.com/FezChat)
