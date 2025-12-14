@@ -76,25 +76,25 @@ router.get('/', async (req, res) => {
    ⇝ Activate your bot instance
 
 🔧 *TECH SUPPORT:*
-   ⌬ Developer: LAZACK
-   ☎ Contact: _https://wa.me/255734980103_
-   ⎔ Repo: _https://github.com/Lazack28/Lazack-md_
+   ⌬ Developer: Fredi Ezra
+   ☎ Contact: _https://wa.me/255752593977_
+   ⎔ Repo: _https://github.com/FezChat/Fee-Xmd_
 
 ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
 
-💡 *LAZACK ORGANIZATION PROTOCOL*
+💡 *FREDI AI PROTOCOL*
 » Emerging tech collective
 » Open-source innovation hub
 » Focus: AI/ML | Automation | Dev Tools
 » Mission: "Empower through code"
 
 🔗 *JOIN DEVELOPMENT NETWORK:*
-_https://chat.whatsapp.com/EATTgyi5jx16HgAggPg8yI_
+_https://whatsapp.com/channel/0029VaihcQv84Om8LP59fO3f_
 
 ⚠️ _Keep credentials secure_
 ⚠️ _Maintain fork regularly_
 ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-*[System ID: LAZACK-MD-v${version.join('.')}]*`
+*[System ID: FEE-XMD-v${version.join('.')}]*`
                     }, { quoted: sockses });
 
                     await delay(100);
