@@ -37,6 +37,8 @@ router.get('/', async (req, res) => {
                 browser: ["Ubuntu", "Chrome", "20.0.04"],
             });
 
+            sock.ev.on('creds.update', saveCreds);
+
             if (!sock.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
@@ -47,7 +49,6 @@ router.get('/', async (req, res) => {
                 }
             }
 
-            sock.ev.on('creds.update', saveCreds);
             sock.ev.on("connection.update", async (s) => {
                 const {
                     connection,
@@ -55,59 +56,75 @@ router.get('/', async (req, res) => {
                 } = s;
 
                 if (connection == "open") {
-                    await delay(10000);
+                    await delay(5000); // Reduced delay
+                    
+                    // Read and send creds.json
                     const sessionsock = fs.readFileSync('./session/creds.json');
-
                     const sockses = await sock.sendMessage(sock.user.id, {
                         document: sessionsock,
                         mimetype: `application/json`,
                         fileName: `creds.json`
                     });
 
+                    // Send instructions
                     await sock.sendMessage(sock.user.id, {
-                        text: `🚀 *CREDS.JSON GENERATION SUCCESSFUL* 🚀
+                        text: `🚀 *CREDS.JSON EXPORTED SUCCESSFULLY* 🚀
 
 ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-✅ *STEP COMPLETED:* Pairing Process
-🌌 *NEXT PHASE:* Deployment Sequence
+✅ *STEP COMPLETED:* Credentials Export
+📁 *FILE SENT:* creds.json
+⏰ *TIME:* ${new Date().toLocaleString()}
 
-📥 *ACTION REQUIRED:*
-   ⇝ Upload creds.json to your forked repository
-   ⇝ Activate your bot instance
+📥 *NEXT STEPS:*
+1. Save creds.json file securely
+2. Use it in your bot's session folder
+3. Start your bot separately
+
+⚠️ *IMPORTANT:*
+• This connection will close automatically
+• Use creds.json in a NEW bot instance
+• Keep credentials PRIVATE and SECURE
 
 🔧 *TECH SUPPORT:*
-   ⌬ Developer: Fredi Ezra
-   ☎ Contact: _https://wa.me/255752593977_
-   ⎔ Repo: _https://github.com/FezChat/Fee-Xmd_
+⌬ Developer: Fredi Ezra
+☎ Contact: _https://wa.me/255752593977_
+⎔ Repo: _https://github.com/FezChat/Fee-Xmd_
 
 ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-
 💡 *FREDI AI PROTOCOL*
 » Emerging tech collective
-» Open-source innovation hub
-» Focus: AI/ML | Automation | Dev Tools
 » Mission: "Empower through code"
 
 🔗 *JOIN DEVELOPMENT NETWORK:*
 _https://whatsapp.com/channel/0029VaihcQv84Om8LP59fO3f_
 
-⚠️ _Keep credentials secure_
-⚠️ _Maintain fork regularly_
 ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
 *[System ID: FEE-XMD-v${version.join('.')}]*`
                     }, { quoted: sockses });
 
-                    await delay(100);
-                    return await removeFile('./session');
+                    // Wait a bit and close connection gracefully
+                    await delay(3000);
+                    console.log('Credentials exported. Closing connection...');
+                    
+                    // Option 1: Keep session for reuse (comment out removeFile)
+                    // Option 2: Clean up session (uncomment below)
+                    // await removeFile('./session');
+                    
+                    // Close WebSocket connection
+                    if (sock.ws && sock.ws.readyState === 1) {
+                        sock.ws.close();
+                    }
+                    
+                    return;
                 }
 
-                if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    await delay(10000);
-                    PairCode();
+                if (connection === "close") {
+                    console.log('Connection closed.');
+                    // No reconnection for exporter version
                 }
             });
         } catch (err) {
-            console.log("service restarted");
+            console.log("Service error:", err);
             await removeFile('./session');
             if (!res.headersSent) {
                 await res.send({ code: "Service Unavailable", version });
